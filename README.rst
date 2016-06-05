@@ -5,7 +5,7 @@ NGINX::Utilities
 A collection of utilities to work with nginx.
 
 .. image::
-    https://img.shields.io/packagist/l/doctrine/orm.svg?maxAge=2592000?style=flat-square
+    https://img.shields.io/packagist/l/doctrine/orm.svg?maxAge=2592000
     :alt: MIT License
     :target: https://github.com/SoftButterfly/nginx-utilities
 

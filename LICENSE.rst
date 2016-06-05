@@ -2,7 +2,7 @@
 Licensing
 =========
 
-This package is released under the MIT license.
+All the code in this repository is released under the MIT license.
 
 ::
 
