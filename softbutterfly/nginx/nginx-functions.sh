@@ -1,34 +1,34 @@
 #!/bin/bash
 # ------------------------------------------------------------------------------
-# NGINX::Utilities::Functions
-# ---------------------------
+# softbutterfly::nginx::functions
+# -------------------------------
 # nginx-functions.sh script contains useful and reusable functions for other
 # scripts in this NGINX::Utilities Scripts Collection
 #
-# --
-# See more at https://github.com/SoftButterfly/nginx-utilities
+# See more at https://github.com/softbutterfly/nginx-utilities
 #
-# --
-# @ZodiacFireworks (Martin Vuelta)
-# martin.vuelta@gmail.com
+# @zodiacfireworks (https://github.com/zodiacfireworks)
+# zodiacfireworks@softbutterfly.io
+#
 
 # ------------------------------------------------------------------------------
-# Loading utilities
-
+# Loading auxiliary scripts
 source nginx-variables.sh
 
 
 # ------------------------------------------------------------------------------
-# Prevent Execution
+# Basic variables
+NGINX_FILE_NAME="$(basename "$0" 2> /dev/null)"
 
+
+# ------------------------------------------------------------------------------
+# Prevent file execution
 if [[ -n $BASH_VERSION ]] && [[ "$(basename "$0" 2> /dev/null)" == "nginx-functions.sh" ]]; then
-    >&2 echo $NGINX_CODE_PREFIX_ERROR
-    >&2 echo "File    : $(basename "$0" 2> /dev/null)"
-    >&2 echo "Message : This script is intended to sourced inside of other scripts in"
-    >&2 echo "          NGINX::Utilities Scripts Collection. Not to be executed as"
-    >&2 echo "          independent part."
-    >&2 echo ""
-
+    >&2 echo ${NGINX_CODE_PREFIX_ERROR}
+    >&2 echo "File    : ${NGINX_FILE_NAME}"
+    >&2 echo "Message : This script is intended to be sourced inside of other"
+    >&2 echo "          scripts in ${NGINX_COLLECTION_NAME}. Not to be executed"
+    >&2 echo "          as independent script."
     exit 1
 fi
 
@@ -40,15 +40,15 @@ fi
 #   * $1 (script_name) -> script from this function is called.
 # Description :
 #   Verify if script is running as root user.
-
+#
 is_run_as_root () {
     local __script_name="$1"
 
     if [ "$(id -u)" != "0" ]; then
-        >&2 echo $NGINX_CODE_PREFIX_ERROR
+        >&2 echo ${NGINX_CODE_PREFIX_ERROR}
 
         if [ -n "$__script_name" ]; then
-            >&2 echo "File    : $__script_name"
+            >&2 echo "File    : ${__script_name}"
         fi
 
         >&2 echo "Message : This script must be run as root."
@@ -68,7 +68,7 @@ is_run_as_root () {
 #   * $3 (function_gargs) -> number of given arguments to function_name.
 # Description :
 #   Verify if function is running whit the correct number of arguments
-
+#
 is_function_run_whit_wrong_nargs () {
     local __this_name="is_function_run_whit_wrong_nargs"
     local __this_rargs=3
@@ -100,7 +100,7 @@ is_function_run_whit_wrong_nargs () {
 
 # ------------------------------------------------------------------------------
 # Function    :
-#   is_script_run_whit_no_arguments ()
+#   is_script_run_whit_wrong_nargs ()
 # Arguments   :
 #   * $1 (script_name) -> script from this function is called.
 #   * $2 (script_min_rargs) -> minimum number of required arguments to
@@ -108,13 +108,13 @@ is_function_run_whit_wrong_nargs () {
 #   * $3 (script_gargs) -> number of given arguments to script_name.
 # Description :
 #   Verify if script is running without arguments
-
+#
 is_script_run_whit_wrong_nargs () {
     local __this_name="is_script_run_whit_wrong_nargs"
     local __this_rargs="3"
     local __this_gargs="$#"
 
-    is_function_run_whit_wrong_nargs "$__this_name" "$__this_rargs" "$__this_gargs"
+    is_function_run_whit_wrong_nargs "${__this_name}" "${__this_rargs}" "${__this_gargs}"
 
     local __script_name="$1"
     local __script_min_rargs="$2"
@@ -144,7 +144,7 @@ is_script_run_whit_wrong_nargs () {
 #   * $2 (unknown_flag) -> flag recognized as unknown.
 # Description :
 #   Print unknown flag error message
-
+#
 is_unknown_flag () {
     local __this_name="is_unknown_flag"
     local __this_rargs="2"
@@ -179,10 +179,10 @@ is_unknown_flag () {
 #   * $1 (script_name) -> script from this function is called.
 #   * $2 (orphan_flag) -> flag recognized as unknown.
 # Description :
-#   Print unknown flag error message
-
+#   Print orphan flag error message
+#
 orphan_flag () {
-    local __this_name="is_unknown_flag"
+    local __this_name="orphan_flag"
     local __this_rargs="2"
     local __this_gargs="$#"
 
@@ -218,7 +218,7 @@ orphan_flag () {
 #   directory path.
 # Notes:
 #   * dof stands for "directory or file"
-
+#
 get_directory_name () {
     local __this_name="get_directory_name"
     local __this_rargs="1"
@@ -241,7 +241,7 @@ get_directory_name () {
 #   Return the absolute path for a given path
 # Notes:
 #   * dof stands for "Directory Or File"
-
+#
 get_absolute_path () {
     local __this_name="get_absolute_path"
     local __this_rargs="1"
@@ -268,7 +268,7 @@ get_absolute_path () {
 #   * $1 (file_path) -> file path.
 # Description :
 #   Return the name without extension of a given file
-
+#
 get_file_name () {
     local __this_name="get_file_name"
     local __this_rargs="1"
@@ -286,6 +286,7 @@ get_file_name () {
     echo "$__file_name"
 }
 
+
 # ------------------------------------------------------------------------------
 # Function    :
 #   get_file_extension ()
@@ -293,7 +294,7 @@ get_file_name () {
 #   * $1 (file_path) -> file path.
 # Description :
 #   Return the extension of a given file
-
+#
 get_file_extension () {
     local __this_name="get_file_extensions"
     local __this_rargs="1"
@@ -319,7 +320,7 @@ get_file_extension () {
 #   * $1 (site_name) -> nginx site name.
 # Description :
 #   Return the absolute path to the config file of site_name
-
+#
 get_site_enabled_config_file_path () {
     local __this_name="get_site_enabled_config_file_path"
     local __this_rargs="1"
@@ -345,7 +346,7 @@ get_site_enabled_config_file_path () {
 #   * $1 (site_name) -> nginx site name.
 # Description :
 #   Return the absolute path to the config file of site_name
-
+#
 get_site_available_config_file_path () {
     local __this_name="get_site_available_config_file_path"
     local __this_rargs="1"
@@ -363,6 +364,7 @@ get_site_available_config_file_path () {
     echo "$__dir_name""$__site_name"
 }
 
+
 # ------------------------------------------------------------------------------
 # Function    :
 #   is_directory ()
@@ -370,7 +372,7 @@ get_site_available_config_file_path () {
 #   * $1 (dir_name) -> directory path.
 # Description :
 #   Checks if the given path is a directory
-
+#
 is_directory () {
     local __this_name="is_directory"
     local __this_rargs="1"
@@ -388,6 +390,7 @@ is_directory () {
     fi
 }
 
+
 # ------------------------------------------------------------------------------
 # Function    :
 #   is_file ()
@@ -395,7 +398,7 @@ is_directory () {
 #   * $1 (file_name) -> file path.
 # Description :
 #   Checks if the given path is a file.
-
+#
 is_file () {
     local __this_name="is_file"
     local __this_rargs="1"
@@ -420,7 +423,7 @@ is_file () {
 #   * $1 (sl_name) -> symbolic link path.
 # Description :
 #   Checks if the given path is a symbolic link.
-
+#
 is_sym_link () {
     local __this_name="is_sym_link"
     local __this_rargs="1"

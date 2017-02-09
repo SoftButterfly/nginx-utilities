@@ -1,14 +1,11 @@
-=========
-Licensing
-=========
+# Licensing
 
-All the code in this repository is released under the MIT license.
+All resources developed by Softbutterfly members in this repository is released under the MIT license.
 
-::
-
+```text
     The MIT License
 
-    Copyright (c) 2016 Martin Vuelta, http://zodiacfireworks.github.io/
+    Copyright (c) 2017 SoftButterfly, https://softbutterfly.io/
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
@@ -27,3 +24,10 @@ All the code in this repository is released under the MIT license.
     LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
     THE SOFTWARE.
+```
+
+Resource with its respective licences are protectect by them.
+
+If you find copyright protected content or without its respective credits,
+please let us know to give the respective credits and to put the things in
+order according to laws.

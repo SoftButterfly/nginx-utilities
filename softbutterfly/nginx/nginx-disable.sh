@@ -1,30 +1,35 @@
 #!/bin/bash
-# ngix-enable site
 # ------------------------------------------------------------------------------
-# NGINX::Utilities::Disable
-# ---------------------------
-# nginx-disable.sh script disables a site running under nginx
+# softbutterfly::nginx::enable
+# -------------------------------
+# nginx-enable.sh script enable a site or file to run under nginx
 #
-# --
-# See more at https://github.com/SoftButterfly/nginx-utilities
+# See more at https://github.com/softbutterfly/nginx-utilities
 #
-# --
-# @ZodiacFireworks (Martin Vuelta)
-# martin.vuelta@gmail.com
+# @zodiacfireworks (https://github.com/zodiacfireworks)
+# zodiacfireworks@softbutterfly.io
+#
 
 # ------------------------------------------------------------------------------
-# Loading utilities
-
+# Loading auxiliary scripts
 source nginx-functions.sh
 source nginx-variables.sh
 
 
 # ------------------------------------------------------------------------------
+# Basic variables
+NGINX_FILE_NAME="$(basename "$0" 2> /dev/null)"
+
+
+# ------------------------------------------------------------------------------
 # Specific functions
 print_help () {
-    local __script_name="$1"
-    echo "$NGINX_COLLECTION_NAME $__script_name"
-    exit 0
+    >&2 echo "${NGINX_COLLECTION_NAME}::enable"
+    >&2 echo "File    : ${NGINX_FILE_NAME}"
+    # >&2 echo "Message : This script is intended to be sourced inside of other"
+    # >&2 echo "          scripts in ${NGINX_COLLECTION_NAME}. Not to be executed"
+    # >&2 echo "          as independent script."
+    exit 1
 }
 
 
@@ -50,11 +55,10 @@ files_path_list=()
 # Verification of user
 is_run_as_root $__this_name
 
-# Correct number of args
+# Verofy the correct number of args
 if [[ "$__this_gargs" -ne "1" ]]; then
     is_script_run_whit_wrong_nargs "$__this_name" "$__this_min_rargs" "$__this_gargs"
 fi
-
 
 if [[ "$__this_gargs" -eq "1" ]]; then
     if [[ "$1" == "$HELP_SH_FLAG" || "$1" == "$HELP_LG_FLAG" ]]; then
@@ -124,6 +128,7 @@ fi
 __fc=$((1))
 for file_name in ${files_list[@]}; do
     files_path_list[__fc]=$(get_absolute_path $file_name)
+    echo ${files_path_list[__fc]}
     files_list[__fc]="$(basename "${files_path_list[$__fc]}" 2> /dev/null)"
     __fc=$(($__fc + 1))
 done
@@ -132,6 +137,7 @@ done
 __sc=$((1))
 for site_name in ${sites_list[@]}; do
     sites_path_list[__sc]=$(get_site_enabled_config_file_path $site_name)
+    echo ${sites_path_list[__sc]}
     __sc=$(($__sc + 1))
 done
 
@@ -178,7 +184,7 @@ for site_path in ${sites_path_list[@]}; do
         >&2 echo "$NGINX_CODE_PREFIX_WARNING"
         >&2 echo "Script  : $__this_name."
         >&2 echo "File    : $site_name"
-        >&2 echo "Message : Skkiping becuase provided path doesn't exist."
+        >&2 echo "Message : Skkiping becuase provided site doesn't exist."
         >&2 echo ""
     fi
 

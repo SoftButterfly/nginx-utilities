@@ -1,32 +1,36 @@
 #!/bin/bash
-# ngix-enable site
 # ------------------------------------------------------------------------------
-# NGINX::Utilities::Disable
-# ---------------------------
+# softbutterfly::nginx::enable
+# -------------------------------
 # nginx-disable.sh script disables a site running under nginx
 #
-# --
-# See more at https://github.com/SoftButterfly/nginx-utilities
+# See more at https://github.com/softbutterfly/nginx-utilities
 #
-# --
-# @ZodiacFireworks (Martin Vuelta)
-# martin.vuelta@gmail.com
+# @zodiacfireworks (https://github.com/zodiacfireworks)
+# zodiacfireworks@softbutterfly.io
+#
 
 # ------------------------------------------------------------------------------
-# Loading utilities
-
+# Loading auxiliary scripts
 source nginx-functions.sh
 source nginx-variables.sh
 
 
 # ------------------------------------------------------------------------------
+# Basic variables
+NGINX_FILE_NAME="$(basename "$0" 2> /dev/null)"
+
+
+# ------------------------------------------------------------------------------
 # Specific functions
 print_help () {
-    local __script_name="$1"
-    echo "$NGINX_COLLECTION_NAME $__script_name"
-    exit 0
+    >&2 echo "${NGINX_COLLECTION_NAME}::enable"
+    >&2 echo "File    : ${NGINX_FILE_NAME}"
+    # >&2 echo "Message : This script is intended to be sourced inside of other"
+    # >&2 echo "          scripts in ${NGINX_COLLECTION_NAME}. Not to be executed"
+    # >&2 echo "          as independent script."
+    exit 1
 }
-
 
 # ------------------------------------------------------------------------------
 # Initialization
